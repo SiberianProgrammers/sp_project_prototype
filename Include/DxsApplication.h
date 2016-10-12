@@ -1,12 +1,12 @@
 #pragma once
 
-#include <DxsApplication.h>
+#include <DxsApplicationPrototype.h>
 
 namespace dxs {
-class DirectXaocApplication: public DxsApplication
+class DxsApplication: public DxsApplicationPrototype
 {
     public:
-        DirectXaocApplication(int &argc, char **argv
+        DxsApplication(int &argc, char **argv
                              , const QString &title
                              , int width = 250, int height = 400);
 };

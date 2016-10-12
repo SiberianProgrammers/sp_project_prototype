@@ -1,8 +1,8 @@
-#include <DirectXaocApplication.h>
+#include <DxsApplication.h>
 
 int main(int argc, char *argv[])
 {
-    dxs::DirectXaocApplication app(argc, argv, "Dxs Project Prototype");
+    dxs::DxsApplication app(argc, argv, "Dxs Project Prototype");
 
     return app.exec();
 }

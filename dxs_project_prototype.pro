@@ -6,10 +6,10 @@ CONFIG += c++11
 INCLUDEPATH += Include
 
 HEADERS += \
-    Include/DirectXaocApplication.h \
+    Include/DxsApplication.h
 
 SOURCES += Source/Main.cpp \
-    Source/DirectXaocApplication.cpp \
+    Source/DxsApplication.cpp
 
 RESOURCES += \
     $$PWD/Qml/qml.qrc
