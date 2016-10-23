@@ -15,6 +15,7 @@ if [[ "$dir" == "" ]]; then
 	read newFolder
 	dir=${workDir/$prototypeFolder/$newFolder}
 	projectName=$newFolder
+
 	# Создаем новую папку
 	mkdir $dir
 	# копируем всю папку 
@@ -30,10 +31,10 @@ else
 		cp -R "$workDir/" $dir
 	else
 		#Папка оказалась не пустой
-		echo "Папка с таким проектом уже существует, удалить папку? Введите y или n"
+        echo "Папка с таким проектом уже существует, удалить папку? (y/n)"
 		read answer
 
-		while [[ "$answer" != "y" || "$answer" != "no" ]]
+		while [[ "$answer" != "y" || "$answer" != "n" ]]
 		do
 			case "$answer" in
   				"y") 
@@ -59,7 +60,7 @@ else
 	fi # if [ ! -d "${workDir/$prototypeFolder/$dir}" ]; then
 fi # if [[ "$dir" == "" ]]; then
 
-# Теперь рабочая папка та, в которую все скопировали
+# Теперь рабочая папка та, в которую всё скопировали
 cd ../
 cd $projectName
 
@@ -117,5 +118,10 @@ rm -r -f "$androidFolder/src/com/dxs/project/prototype/"
 #TODO удалить, если не пусты
 #rmdir "$androidFolder/src/com/dxs/project/"
 #rmdir "$androidFolder/src/com/dxs/"
+
+#Правим Programmist.pri
+echo "Введите вашу директиву логирования, например DXS_ALEUS"
+read logDefine
+sed -i '' "s/DXS_ALEUS/$logDefine/g" Programmer.pri
 
 exit 0

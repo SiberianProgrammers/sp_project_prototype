@@ -1,6 +1,6 @@
 pragma Singleton
 
-import QtQuick 2.6
+import QtQuick 2.7
 import "qrc:/DxsQml"
 
 ConstsPrototype {

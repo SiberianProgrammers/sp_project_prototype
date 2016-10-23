@@ -3,8 +3,11 @@ TEMPLATE = app
 QT += qml quick widgets
 CONFIG += c++11
 
-INCLUDEPATH += Include
+include(Programmer.pri)
+include(Deployment.pri)
+include($$PWD/../dxs_qt_libs/dxs_qt_libs.pri)
 
+INCLUDEPATH += Include
 HEADERS += \
     Include/DxsApplication.h
 
@@ -13,13 +16,6 @@ SOURCES += Source/Main.cpp \
 
 RESOURCES += \
     $$PWD/Qml/qml.qrc
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Default rules for deployment.
-include(deployment.pri)
-include($$PWD/../dxs_qt_libs/dxs_qt_libs.pri)
 
 android {
     QT += androidextras

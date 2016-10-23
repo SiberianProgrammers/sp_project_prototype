@@ -1,4 +1,4 @@
-import QtQuick 2.6
+import QtQuick 2.7
 import DXS 1.0
 import "./"
 import "qrc:/DxsQml"
@@ -18,10 +18,6 @@ Item {
 
         color: Consts.lightGray
         z: -1
-    }
-
-    TextNormal {
-
     }
 
     Text {
