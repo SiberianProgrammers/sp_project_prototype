@@ -28,7 +28,7 @@ android {
         ../dxs_project_prototype/Android/build.gradle \
         ../dxs_project_prototype/Android/gradle/wrapper/gradle-wrapper.properties \
         ../dxs_project_prototype/Android/gradlew.bat \
-        ../dxs_project_prototype/Android/src/com/dxs/project/prototype/DxsProjectPrototypeActivity.java
+        ../dxs_project_prototype/Android/src/com/dxs/projectPrototype/DxsProjectPrototypeActivity.java
 
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../dxs_project_prototype/Android
 }
