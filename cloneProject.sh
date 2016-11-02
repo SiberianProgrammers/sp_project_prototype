@@ -82,11 +82,12 @@ mv dxs_project_prototype.pro $projectName.pro
 
 # Правим Android
 # Меняем AndroidManifest
-echo "Введите новое имя пакета android"
+echo "Введите новое имя пакета android. Например"
+echo "com.dxs.myProject"
 read packageName
 androidFolder="$workDir/Android"
 manifestFile="$androidFolder/AndroidManifest.xml"
-sed -i '' "s/com.dxs.project.prototype/$packageName/g" "$manifestFile"
+sed -i '' "s/com.dxs.projectPrototype/$packageName/g" "$manifestFile"
 
 # Меняем иерархию папок в android/src/com/...
 IFS='.' read -r -a array <<< "$packageName"
@@ -102,15 +103,27 @@ do
 	fi
 done
 
+sed -i '' "s/projectPrototype/$activityName/g" "$projectName.pro"
+
 firstLetter=${activityName:0:1}
 firstLetter=$firstLetter | tr "[:lower:]" "[:upper:]"
 firstLetter=$(tr "[:lower:]" "[:upper:]" <<< $firstLetter)
+
 activityName="$firstLetter${activityName:1:${#activityName}-1}Activity"
+# Добавляем перед Activity Dxs
+activityName="Dxs$activityName"
+
+echo "Новое имя anctivity = $activityName"
+# Меняем путь до папок Android в *.pro файле
+sed -i '' "s/dxs_project_prototype/$projectName/g" "$projectName.pro"
+sed -i '' "s/DxsProjectPrototypeActivity/$activityName/g" "$projectName.pro"
 
 # Меняем название пакета в DxsProjectPrototypeActivity.java и копируем куда нужно
-cp -R "$androidFolder/src/com/dxs/project/prototype/" $activityFolder
-sed -i '' "s/com.dxs.project.prototype/$packageName/g" "$activityFolder/DxsProjectPrototypeActivity.java"
+cp -R "$androidFolder/src/com/dxs/projectPrototype/" $activityFolder
+sed -i '' "s/com.dxs.projectPrototype/$packageName/g" "$activityFolder/DxsProjectPrototypeActivity.java"
+sed -i '' "s/DxsProjectPrototypeActivity/$activityName/g" "$activityFolder/DxsProjectPrototypeActivity.java"
 sed -i '' "s/DxsProjectPrototypeActivity/$activityName/g" "$manifestFile"
+
 mv "$activityFolder/DxsProjectPrototypeActivity.java" "$activityFolder/$activityName.java"
 
 #Удаляем лишние папки
