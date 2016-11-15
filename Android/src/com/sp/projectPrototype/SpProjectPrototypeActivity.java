@@ -1,11 +1,11 @@
-package com.dxs.projectPrototype;
+package com.sp.projectPrototype;
 
-import dxs.DxsActivity;
+import sp.SpActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-public class DxsProjectPrototypeActivity extends DxsActivity
+public class SpProjectPrototypeActivity extends SpActivity
 {
     Context context;
 
