@@ -18,9 +18,9 @@ SOURCES += Source/Main.cpp \
     Source/JniSetup.cpp
 
 RESOURCES += \
-    $$PWD/Qml/qml.qrc \
-    Qml/images.qrc \
-    Qml/fonts.qrc
+    $$PWD/Qml/Qml.qrc \
+    Images/Images.qrc \
+    Fonts/Fonts.qrc
 
 android {
     QT += androidextras
