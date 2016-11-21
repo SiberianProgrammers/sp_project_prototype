@@ -1,8 +1,8 @@
-#include <DxsApplication.h>
+#include <SpApplication.h>
 
 int main(int argc, char *argv[])
 {
-    dxs::DxsApplication app(argc, argv, "Dxs Project Prototype");
+    sp::SpApplication app(argc, argv, "Sp Project Prototype");
 
     return app.exec();
 }

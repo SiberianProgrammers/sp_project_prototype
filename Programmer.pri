@@ -1,4 +1,4 @@
-DEFINES += DXS_ALEUS
+DEFINES += SP_ALEUS
 
 macx {
     QMAKE_MAC_SDK = macosx10.11

@@ -1,7 +1,7 @@
 import QtQuick 2.7
-import DXS 1.0
+import SP 1.0
 import "./"
-import "qrc:/DxsQml"
+import "qrc:/SpQml"
 
 Item {
     id: root
@@ -26,7 +26,7 @@ Item {
         font.pixelSize: Consts.fontNormal
         lineHeight: 1.2
         horizontalAlignment: Text.AlignHCenter
-        text: qsTr("Пустой проект Dxs, включающий в себя Root.qml, Consts.qml, DxsActivity.java")
+        text: qsTr("Пустой проект Sp, включающий в себя Root.qml, Consts.qml, DxsActivity.java")
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
     }
 }

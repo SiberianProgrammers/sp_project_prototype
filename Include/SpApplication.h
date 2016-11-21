@@ -1,12 +1,12 @@
 #pragma once
 
-#include <DxsApplicationPrototype.h>
+#include <SpApplicationPrototype.h>
 
-namespace dxs {
-class DxsApplication: public DxsApplicationPrototype
+namespace sp {
+class SpApplication: public SpApplicationPrototype
 {
     public:
-        DxsApplication(int &argc, char **argv
+        SpApplication(int &argc, char **argv
                              , const QString &title
                              , int width = 250, int height = 400);
 };

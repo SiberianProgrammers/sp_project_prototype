@@ -12,8 +12,8 @@ unix:!android {
 
 android {
     # Добавляем в проект DxsActivity.java
-    deployment.files += $$PWD/../dxs_qt_libs/android/src/dxs/DxsActivity.java
-    deployment.path = $$system_path(/src/dxs/)
+    deployment.files += $$PWD/../sp_qt_libs/android/src/sp/SpActivity.java
+    deployment.path = $$system_path(/src/sp/)
     INSTALLS += deployment
 }
 

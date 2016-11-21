@@ -9,26 +9,31 @@ include($$PWD/../sp_qt_libs/sp_qt_libs.pri)
 
 INCLUDEPATH += Include
 HEADERS += \
-    Include/SpApplication.h
+    Include/SpApplication.h \
+    Include/JniSetup.h \
+    Include/Consts.h
 
 SOURCES += Source/Main.cpp \
-    Source/SpApplication.cpp
+    Source/SpApplication.cpp \
+    Source/JniSetup.cpp
 
 RESOURCES += \
-    $$PWD/Qml/qml.qrc
+    $$PWD/Qml/qml.qrc \
+    Qml/images.qrc \
+    Qml/fonts.qrc
 
 android {
     QT += androidextras
 
     DISTFILES += \
-        ../sp_project_prototype/Android/AndroidManifest.xml \
-        ../sp_project_prototype/Android/gradle/wrapper/gradle-wrapper.jar \
-        ../sp_project_prototype/Android/gradlew \
-        ../sp_project_prototype/Android/res/values/libs.xml \
-        ../sp_project_prototype/Android/build.gradle \
-        ../sp_project_prototype/Android/gradle/wrapper/gradle-wrapper.properties \
-        ../sp_project_prototype/Android/gradlew.bat \
-        ../sp_project_prototype/Android/src/com/sp/projectPrototype/SpProjectPrototypeActivity.java
+        Android/AndroidManifest.xml \
+        Android/gradle/wrapper/gradle-wrapper.jar \
+        Android/gradlew \
+        Android/res/values/libs.xml \
+        Android/build.gradle \
+        Android/gradle/wrapper/gradle-wrapper.properties \
+        Android/gradlew.bat \
+        Android/src/com/sp/projectPrototype/SpProjectPrototypeActivity.java
 
-    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/../sp_project_prototype/Android
+    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/Android
 }

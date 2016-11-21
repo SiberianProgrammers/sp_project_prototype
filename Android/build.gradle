@@ -41,7 +41,10 @@ android {
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = [qt5AndroidDir + '/src', 'src', 'java']
+            java {
+                  srcDirs = [qt5AndroidDir + '/src', 'src', 'java']
+                  srcDir '$buildDir/../../../sp_qt_libs/android/src'
+            }
             aidl.srcDirs = [qt5AndroidDir + '/src', 'src', 'aidl']
             res.srcDirs = [qt5AndroidDir + '/res', 'res']
             resources.srcDirs = ['src']
