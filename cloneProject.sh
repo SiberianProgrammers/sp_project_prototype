@@ -3,8 +3,10 @@ dir=$1 # Считываем название директории
 projectName=$dir
 
 workDir=$PWD
+echo "workDir = $workDir projectName = $projectName"
 #TODO - доделать, ведь название может быть кривым
 prototypeFolder=${workDir:(-20)} # выдираем название текущей папки с прототипом
+
 
 # Работа с папкой
 if [[ "$dir" == "" ]]; then
@@ -15,18 +17,19 @@ if [[ "$dir" == "" ]]; then
 	projectName=$newFolder
 
 	# Создаем новую папку
-        mkdir -p $dir
+    mkdir -p $dir
 	# копируем всю папку 
-	cp -R "$workDir/" $dir
+	cp -R $workDir/* $dir
+
 else
 	# Проверяем наличие папки
     dir=${workDir/$prototypeFolder/$dir}
 
 	if [ ! -d "$dir" ]; then
     	# Создаем новую папку
-                mkdir -p $dir
+        mkdir -p $dir
 		# копируем всю папку 
-		cp -R "$workDir/" $dir
+		cp -R $workDir/* $dir
 	else
 		#Папка оказалась не пустой
         echo "Папка с таким проектом уже существует, удалить папку? (y/n)"
@@ -40,7 +43,7 @@ else
 					# Создаем новую папку
                                         mkdir -p $dir
 					# копируем всю папку 
-					cp -R "$workDir/" $dir
+					cp -R $workDir/* $dir
 					break
 					;;
 	
@@ -85,7 +88,7 @@ echo "com.sp.myProject"
 read packageName
 androidFolder="$workDir/Android"
 manifestFile="$androidFolder/AndroidManifest.xml"
-sed -i '' "s/com.sp.projectPrototype/$packageName/g" "$manifestFile"
+sed -i "s/com.sp.projectPrototype/$packageName/g" "$manifestFile"
 
 # Меняем иерархию папок в android/src/com/...
 IFS='.' read -r -a array <<< "$packageName"
@@ -102,7 +105,8 @@ do
     if [[ "$activityFolderPath" == "" ]]; then
         activityFolderPath="$element"
     else
-        activityFolderPath="$activityFolderPath\/$element"
+		#activityFolderPath="$activityFolderPath\/$element"
+        activityFolderPath="$activityFolderPath/$element"
     fi
 
     activityName=$element
@@ -112,19 +116,19 @@ do
 done
 
 
-oldActiviryFolder="com\/sp\/projectPrototype"
+oldActiviryFolder=com\/sp\/projectPrototype
 
-sed -i '' "s/$oldActiviryFolder/$activityFolderPath/g" "$projectName.pro"
-sed -i '' "s/$oldActiviryFolder/$activityFolderPath/g" "Include/Consts.h"
+sed -i "s@$oldActiviryFolder@$activityFolderPath@g" $projectName.pro
+sed -i "s@$oldActiviryFolder@$activityFolderPath@g" Include/Consts.h
 
-cp -R "$workDir/../sp_project_prototype/Android/src/com/sp/projectPrototype/" $activityFolder
-sed -i '' "s/com.sp.projectPrototype/$packageName/g" "$activityFolder/SpProjectPrototypeActivity.java"
+cp -R $workDir/../sp_project_prototype/Android/src/com/sp/projectPrototype/* $activityFolder
+sed -i "s@com.sp.projectPrototype@$packageName@g" $activityFolder/SpProjectPrototypeActivity.java
 
 
 #-------------------------------------------------------------------------------------
 # Вырезал смену имени SpProhectPrototypeActivity
-#sed -i '' "s/projectPrototype/$activityName/g" "$projectName.pro"
-#sed -i '' "s/projectPrototype/$activityName/g"  "Include/Consts.h"
+#sed -i '' "s@projectPrototype/$activityName/g" "$projectName.pro"
+#sed -i '' "s@projectPrototype/$activityName/g"  "Include/Consts.h"
 
 #firstLetter=${activityName:0:1}
 #firstLetter=$firstLetter | tr "[:lower:]" "[:upper:]"
@@ -171,6 +175,6 @@ sed -i '' "s/com.sp.projectPrototype/$packageName/g" "$activityFolder/SpProjectP
 #Правим Programmist.pri
 echo "Введите вашу директиву логирования, например SP_ALEUS"
 read logDefine
-sed -i '' "s/SP_ALEUS/$logDefine/g" Programmer.pri
+sed -i "s/SP_ALEUS/$logDefine/g" Programmer.pri
 
 exit 0
