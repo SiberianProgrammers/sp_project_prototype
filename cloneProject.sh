@@ -15,7 +15,7 @@ if [[ "$dir" == "" ]]; then
 	projectName=$newFolder
 
 	# Создаем новую папку
-	mkdir $dir
+        mkdir -p $dir
 	# копируем всю папку 
 	cp -R "$workDir/" $dir
 else
@@ -24,7 +24,7 @@ else
 
 	if [ ! -d "$dir" ]; then
     	# Создаем новую папку
-		mkdir $dir
+                mkdir -p $dir
 		# копируем всю папку 
 		cp -R "$workDir/" $dir
 	else
@@ -38,7 +38,7 @@ else
   				"y") 
 					rm -r -f $dir
 					# Создаем новую папку
-					mkdir $dir
+                                        mkdir -p $dir
 					# копируем всю папку 
 					cp -R "$workDir/" $dir
 					break
@@ -91,43 +91,82 @@ sed -i '' "s/com.sp.projectPrototype/$packageName/g" "$manifestFile"
 IFS='.' read -r -a array <<< "$packageName"
 activityFolder="$androidFolder/src"
 activityName=""
+activityFolderPath=""
+
+rm -r -f "$androidFolder/src/com/"
 
 for element in "${array[@]}"
 do
     activityFolder="$activityFolder/$element"
+
+    if [[ "$activityFolderPath" == "" ]]; then
+        activityFolderPath="$element"
+    else
+        activityFolderPath="$activityFolderPath\/$element"
+    fi
+
     activityName=$element
     if [ ! -d "$activityFolder" ]; then
-    	mkdir $activityFolder
-	fi
+        mkdir -p $activityFolder
+    fi
 done
 
-sed -i '' "s/projectPrototype/$activityName/g" "$projectName.pro"
-sed -i '' "s/projectPrototype/$activityName/g"           "Include/Consts.h"
 
-firstLetter=${activityName:0:1}
-firstLetter=$firstLetter | tr "[:lower:]" "[:upper:]"
-firstLetter=$(tr "[:lower:]" "[:upper:]" <<< $firstLetter)
+oldActiviryFolder="com\/sp\/projectPrototype"
 
-activityName="$firstLetter${activityName:1:${#activityName}-1}Activity"
-# Добавляем перед Activity Sp
-activityName="Sp$activityName"
+sed -i '' "s/$oldActiviryFolder/$activityFolderPath/g" "$projectName.pro"
+sed -i '' "s/$oldActiviryFolder/$activityFolderPath/g" "Include/Consts.h"
 
-echo "Новое имя anctivity = $activityName"
-# Меняем путь до папок Android в *.pro файле
-sed -i '' "s/sp_project_prototype/$projectName/g" "$projectName.pro"
-sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "$projectName.pro"
-sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "Include/Consts.h"
-
-# Меняем название пакета в SPProjectPrototypeActivity.java и копируем куда нужно
-cp -R "$androidFolder/src/com/sp/projectPrototype/" $activityFolder
+cp -R "$workDir/../sp_project_prototype/Android/src/com/sp/projectPrototype/" $activityFolder
 sed -i '' "s/com.sp.projectPrototype/$packageName/g" "$activityFolder/SpProjectPrototypeActivity.java"
-sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "$activityFolder/SpProjectPrototypeActivity.java"
-sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "$manifestFile"
 
-mv "$activityFolder/SpProjectPrototypeActivity.java" "$activityFolder/$activityName.java"
+
+#-------------------------------------------------------------------------------------
+# Вырезал смену имени SpProhectPrototypeActivity
+#sed -i '' "s/projectPrototype/$activityName/g" "$projectName.pro"
+#sed -i '' "s/projectPrototype/$activityName/g"  "Include/Consts.h"
+
+#firstLetter=${activityName:0:1}
+#firstLetter=$firstLetter | tr "[:lower:]" "[:upper:]"
+#firstLetter=$(tr "[:lower:]" "[:upper:]" <<< $firstLetter)
+
+#activityName="$firstLetter${activityName:1:${#activityName}-1}Activity"
+# Добавляем перед Activity Sp
+#activityName="Sp$activityName"
+#echo "Новое имя anctivity = $activityName"
+
+#sed -i '' "s/sp_project_prototype/$projectName/g" "$projectName.pro"
+#
+#sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "$projectName.pro"
+#sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "Include/Consts.h"
+#
+## Меняем название пакета в SPProjectPrototypeActivity.java и копируем куда нужно
+#cp -R "$androidFolder/src/com/sp/projectPrototype/" $activityFolder
+#sed -i '' "s/com.sp.projectPrototype/$packageName/g" "$activityFolder/SpProjectPrototypeActivity.java"
+#sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "$activityFolder/SpProjectPrototypeActivity.java"
+#sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "$manifestFile"
+
+
+# Вырезал смену имени SpProhectPrototypeActivity
+# Меняем путь до папок Android в *.pro файле
+#sed -i '' "s/sp_project_prototype/$projectName/g" "$projectName.pro"
+#
+#sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "$projectName.pro"
+#sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "Include/Consts.h"
+#
+## Меняем название пакета в SPProjectPrototypeActivity.java и копируем куда нужно
+#cp -R "$androidFolder/src/com/sp/projectPrototype/" $activityFolder
+#sed -i '' "s/com.sp.projectPrototype/$packageName/g" "$activityFolder/SpProjectPrototypeActivity.java"
+#sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "$activityFolder/SpProjectPrototypeActivity.java"
+#sed -i '' "s/SpProjectPrototypeActivity/$activityName/g" "$manifestFile"
+
+#mv "$activityFolder/SpProjectPrototypeActivity.java" "$activityFolder/$activityName.java"
 
 #Удаляем лишние папки
-rm -r -f "$androidFolder/src/com/sp/projectPrototype/"
+#rm -r -f "$androidFolder/src/com/sp/projectPrototype/"
+
+# конец вырезания
+#-------------------------------------------------------------------------------------
 
 #Правим Programmist.pri
 echo "Введите вашу директиву логирования, например SP_ALEUS"
