@@ -2,6 +2,11 @@
 
 #include <SpApplicationPrototype.h>
 
+#if defined(qApp)
+#undef qApp
+#endif
+#define qApp (static_cast<sp::SpApplicationPrototype *>(QCoreApplication::instance()))
+
 namespace sp {
 class SpApplication: public SpApplicationPrototype
 {
