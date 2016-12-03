@@ -5,7 +5,7 @@
 #if defined(qApp)
 #undef qApp
 #endif
-#define qApp (static_cast<sp::SpApplicationPrototype *>(QCoreApplication::instance()))
+#define qApp (static_cast<sp::SpApplication *>(QCoreApplication::instance()))
 
 namespace sp {
 class SpApplication: public SpApplicationPrototype
@@ -13,6 +13,6 @@ class SpApplication: public SpApplicationPrototype
     public:
         SpApplication(int &argc, char **argv
                              , const QString &title
-                             , int width = 250, int height = 400);
+                             , int width = 230, int height = 400);
 };
 }
