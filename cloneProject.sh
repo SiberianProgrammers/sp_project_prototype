@@ -3,7 +3,7 @@ dir=$1 # Считываем название директории
 projectName=$dir
 
 workDir=$PWD
-echo "workDir = $workDir projectName = $projectName"
+originDir=$PWD
 #TODO - доделать, ведь название может быть кривым
 prototypeFolder=${workDir:(-20)} # выдираем название текущей папки с прототипом
 
@@ -176,5 +176,15 @@ sed -i "s@com.sp.projectPrototype@$packageName@g" $activityFolder/SpProjectProto
 echo "Введите вашу директиву логирования, например SP_ALEUS"
 read logDefine
 sed -i "s/SP_ALEUS/$logDefine/g" Programmer.pri
+
+#Инициализируем git
+rm -r sp_qt_libs
+git init
+git add *
+git add .gitignore
+git commit -m "Заглавный коммит."
+git submodule add git@bitbucket.org:siberian_programmers/sp_qt_libs.git
+git commit -m "Добавлен модуль sp_qt_libs."
+git checkout -b develop
 
 exit 0

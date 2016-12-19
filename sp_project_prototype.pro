@@ -5,7 +5,7 @@ CONFIG += c++11
 
 include(Programmer.pri)
 include(Deployment.pri)
-include($$PWD/../sp_qt_libs/sp_qt_libs.pri)
+include(sp_qt_libs/sp_qt_libs.pri)
 
 INCLUDEPATH += Include
 HEADERS += \
