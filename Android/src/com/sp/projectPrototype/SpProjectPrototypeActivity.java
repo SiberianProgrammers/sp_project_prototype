@@ -45,5 +45,8 @@ public class SpProjectPrototypeActivity extends SpActivity
     protected void onPause() {
         super.onPause();
     }
+
+    public static native void logInfo(String text);
+    public static native void logError(String text);
 }
 

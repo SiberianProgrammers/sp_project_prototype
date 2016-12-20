@@ -47,12 +47,26 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved)
 {
     Q_UNUSED(vm);
     Q_UNUSED(reserved);
-    JNINativeMethod methods[] { {"logInfo", "(Ljava/lang/String;)V", (void *)&logInfo}
-                               ,{"logError", "(Ljava/lang/String;)V", (void *)&logError}
+
+    JNINativeMethod methodsLibs[] { {"_logInfo", "(Ljava/lang/String;)V", (void *)&logInfo}
+                               ,{"_logError", "(Ljava/lang/String;)V", (void *)&logError}
                                ,{"keyboardVisibleChanged", "(ZI)V", (void *)&keyboardVisibleChanged}
                               };
 
     QAndroidJniEnvironment env;
+    jclass objectClassLibs = env->FindClass(QString("sp/SpActivity").toStdString().c_str());
+    jint   resLibs         = env->RegisterNatives(objectClassLibs, methodsLibs, ( sizeof(methodsLibs) / sizeof(methodsLibs[0])) );
+
+    // Возвращает 0, если успешно зарегестрирован
+    if (resLibs != 0) {
+        env->ExceptionDescribe();
+        return -1;
+    }
+
+    JNINativeMethod methods[] { {"logInfo", "(Ljava/lang/String;)V", (void *)&logInfo}
+                               ,{"logError", "(Ljava/lang/String;)V", (void *)&logError}
+                              };
+
     jclass objectClass = env->FindClass(Consts::activityPackageBase.toStdString().c_str());
     jint   res         = env->RegisterNatives(objectClass, methods, ( sizeof(methods) / sizeof(methods[0])) );
 
