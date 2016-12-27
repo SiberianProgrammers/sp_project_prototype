@@ -46,6 +46,10 @@ public class SpProjectPrototypeActivity extends SpActivity
         super.onPause();
     }
 
+    public void finishSplash() {
+        SplashActivity.splashScreen.finish();
+    }
+
     public static native void logInfo(String text);
     public static native void logError(String text);
 }

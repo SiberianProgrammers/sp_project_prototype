@@ -123,8 +123,10 @@ cp -R $workDir/../sp_project_prototype/Android/src/com/sp/projectPrototype/* $ac
 
 if [[ "$currentOs" == "Darwin" ]]; then
     sed -i '' "s@com.sp.projectPrototype@$packageName@g" $activityFolder/SpProjectPrototypeActivity.java
+    sed -i '' "s@com.sp.projectPrototype@$packageName@g" $activityFolder/SplashActivity.java
 else
     sed -i "s@com.sp.projectPrototype@$packageName@g" $activityFolder/SpProjectPrototypeActivity.java
+    sed -i "s@com.sp.projectPrototype@$packageName@g" $activityFolder/SplashActivity.java
 fi
 
 #-------------------------------------------------------------------------------------

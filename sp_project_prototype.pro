@@ -33,7 +33,8 @@ android {
         Android/build.gradle \
         Android/gradle/wrapper/gradle-wrapper.properties \
         Android/gradlew.bat \
-        Android/src/com/sp/projectPrototype/SpProjectPrototypeActivity.java
+        Android/src/com/sp/projectPrototype/SpProjectPrototypeActivity.java \
+        Android/src/com/sp/projectPrototype/SplashActivity.java
 
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/Android
 }

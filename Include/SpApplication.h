@@ -10,9 +10,17 @@
 namespace sp {
 class SpApplication: public SpApplicationPrototype
 {
+    Q_OBJECT
+
     public:
         SpApplication(int &argc, char **argv
                              , const QString &title
                              , int width = 230, int height = 400);
+
+    private slots:
+        void closeSplashScreen();
+
+    private:
+        bool firstRendering = true;
 };
 }
