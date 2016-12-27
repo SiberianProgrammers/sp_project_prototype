@@ -1,65 +1,42 @@
 #!/bin/bash
 dir=$1 # Считываем название директории
-projectName=$dir
+projectName=$1
+
+currentOs=$(uname -s)
 
 workDir=$PWD
 originDir=$PWD
 #TODO - доделать, ведь название может быть кривым
 prototypeFolder=${workDir:(-20)} # выдираем название текущей папки с прототипом
 
-
+dir=${workDir/$prototypeFolder/$dir}
 # Работа с папкой
-if [[ "$dir" == "" ]]; then
-	# При вводе команды не ввели новое название папки
-	echo "Введите название новой папки с проектом. Она будет расположена в ${workDir/$prototypeFolder/}"
-	read newFolder
-	dir=${workDir/$prototypeFolder/$newFolder}
-	projectName=$newFolder
-
-	# Создаем новую папку
-    mkdir -p $dir
-	# копируем всю папку 
-	cp -R $workDir/* $dir
-
-else
-	# Проверяем наличие папки
-    dir=${workDir/$prototypeFolder/$dir}
-
-	if [ ! -d "$dir" ]; then
-    	# Создаем новую папку
-        mkdir -p $dir
-		# копируем всю папку 
-		cp -R $workDir/* $dir
-	else
-		#Папка оказалась не пустой
-        echo "Папка с таким проектом уже существует, удалить папку? (y/n)"
-		read answer
-
-		while [[ "$answer" != "y" || "$answer" != "n" ]]
-		do
-			case "$answer" in
-  				"y") 
-					rm -r -f $dir
-					# Создаем новую папку
-                                        mkdir -p $dir
-					# копируем всю папку 
-					cp -R $workDir/* $dir
-					break
-					;;
-	
-  				"n" ) # ответ no 
-					echo "Пожалуйста, удалите папку сами"
-					exit -1
-					;;
-	
-  				*    ) # ждем ответ yse или no
-					echo "Пожалуйста введите y или n"
-					read answer
-					;;
-			esac  
-		done # while [[ "$answer" != "yes" || "$answer" != "no" ]]
-	fi # if [ ! -d "${workDir/$prototypeFolder/$dir}" ]; then
+if [[ "$projectName" == "" ]]; then
+       # При вводе команды не ввели новое название папки
+       echo "Введите название новой папки с проектом. Она будет расположена в ${workDir/$prototypeFolder/}"
+       read newFolder
+       dir=${workDir/$prototypeFolder/$newFolder}
+       projectName=$newFolder
 fi # if [[ "$dir" == "" ]]; then
+
+if [ ! -d $dir ]; then
+     echo "Создаем новую папку $dir"
+    # Создаем новую папку
+    mkdir -p $dir
+    # копируем всю папку
+    cp -R $workDir/* $dir
+else
+    # Папка оказалась не пустой
+    mkdir -p ../old_$projectName
+    cp -R ../$projectName/* ../old_$projectName
+    rm -r -f $dir
+
+    # Создаем новую папку
+    mkdir -p $dir
+    # копируем всю папку
+    cp -R $workDir/* $dir
+    echo "Папка с таким проектом уже существует. Старая папка переименова в old_$projectName"
+fi # if [ ! -d "${workDir/$prototypeFolder/$dir}" ]; then
 
 # Теперь рабочая папка та, в которую всё скопировали
 cd ../
@@ -74,12 +51,23 @@ rm -r -f "$workDir/cloneProject.sh"
 rm -r -f "$workDir/Readme.txt"
 rm -r -f "$workDir/.DS_Store"
 rm -r -f "$workDir/.git"
-#rm -r -f "$workDir/.gitignore"
 rm -r -f "$workDir/sp_project_prototype.pro.user"
 
 workDir="$workDir"
 # Переименовываем .pro файл
 mv sp_project_prototype.pro $projectName.pro
+
+echo "Введите имя приложения по-русски"
+read applicationName
+
+if [[ "$currentOs" == "Darwin" ]]; then
+    sed -i '' "s@Sp Project Prototype@$applicationName@g" $workDir/Source/Main.cpp
+    sed -i '' "s@Siberian Programmers@$applicationName@g" $workDir/Android/res/values/strings.xml
+else
+    sed -i "s@Sp Project Prototype@$applicationName@g" $workDir/Source/Main.cpp
+    sed -i "s@Siberian Programmers@$applicationName@g" $workDir/Android/res/values/strings.xml
+fi
+
 
 # Правим Android
 # Меняем AndroidManifest
@@ -88,7 +76,12 @@ echo "com.sp.myProject"
 read packageName
 androidFolder="$workDir/Android"
 manifestFile="$androidFolder/AndroidManifest.xml"
-sed -i "s/com.sp.projectPrototype/$packageName/g" "$manifestFile"
+
+if [[ "$currentOs" == "Darwin" ]]; then
+    sed -i '' "s@com.sp.projectPrototype@$packageName@g" "$manifestFile"
+else
+    sed -i "s@com.sp.projectPrototype@$packageName@g" "$manifestFile"
+fi
 
 # Меняем иерархию папок в android/src/com/...
 IFS='.' read -r -a array <<< "$packageName"
@@ -118,12 +111,21 @@ done
 
 oldActiviryFolder=com\/sp\/projectPrototype
 
-sed -i "s@$oldActiviryFolder@$activityFolderPath@g" $projectName.pro
-sed -i "s@$oldActiviryFolder@$activityFolderPath@g" Include/Consts.h
+if [[ "$currentOs" == "Darwin" ]]; then
+    sed -i '' "s@$oldActiviryFolder@$activityFolderPath@g" $projectName.pro
+    sed -i '' "s@$oldActiviryFolder@$activityFolderPath@g" Include/Consts.h
+else
+    sed -i "s@$oldActiviryFolder@$activityFolderPath@g" $projectName.pro
+    sed -i "s@$oldActiviryFolder@$activityFolderPath@g" Include/Consts.h
+fi
 
 cp -R $workDir/../sp_project_prototype/Android/src/com/sp/projectPrototype/* $activityFolder
-sed -i "s@com.sp.projectPrototype@$packageName@g" $activityFolder/SpProjectPrototypeActivity.java
 
+if [[ "$currentOs" == "Darwin" ]]; then
+    sed -i '' "s@com.sp.projectPrototype@$packageName@g" $activityFolder/SpProjectPrototypeActivity.java
+else
+    sed -i "s@com.sp.projectPrototype@$packageName@g" $activityFolder/SpProjectPrototypeActivity.java
+fi
 
 #-------------------------------------------------------------------------------------
 # Вырезал смену имени SpProhectPrototypeActivity
@@ -175,7 +177,14 @@ sed -i "s@com.sp.projectPrototype@$packageName@g" $activityFolder/SpProjectProto
 #Правим Programmist.pri
 echo "Введите вашу директиву логирования, например SP_ALEUS"
 read logDefine
-sed -i "s/SP_ALEUS/$logDefine/g" Programmer.pri
+
+if [[ "$currentOs" == "Darwin" ]]; then
+    sed -i '' "s/SP_ALEUS/$logDefine/g" Programmer.pri
+else
+    sed -i "s/SP_ALEUS/$logDefine/g" Programmer.pri
+fi
+
+
 
 #Инициализируем git
 rm -r sp_qt_libs

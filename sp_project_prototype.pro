@@ -37,3 +37,13 @@ android {
 
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/Android
 }
+
+ios {
+
+    QT += gui-private
+    LIBS += -framework UIKit
+
+    QMAKE_LFLAGS += -ObjC
+    QMAKE_INFO_PLIST   = $$PWD/Ios/Info.plist
+
+}
