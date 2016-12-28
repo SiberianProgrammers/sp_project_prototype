@@ -12,13 +12,12 @@ import android.graphics.Color;
 import android.view.View;
 import java.lang.System;
 
-//public class SplashActivity extends AppCompatActivity {
 public class SplashActivity extends Activity {
-
     public static Activity splashScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -28,7 +27,6 @@ public class SplashActivity extends Activity {
             this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
 
-        super.onCreate(savedInstanceState);
         splashScreen = this;
         Intent intent = new Intent(this, SpProjectPrototypeActivity.class);
         startActivity(intent);
