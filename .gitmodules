@@ -1,3 +1,3 @@
 [submodule "sp_qt_libs"]
 	path = sp_qt_libs
-	url = git@bitbucket.org:siberian_programmers/sp_qt_libs.git
+	url = git@github.com:SiberianProgrammers/sp_qt_libs.git

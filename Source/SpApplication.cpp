@@ -17,10 +17,12 @@ sp::SpApplication::SpApplication(int &argc, char **argv, const QString &title, i
 
 void sp::SpApplication::closeSplashScreen()
 {
-    if (firstRendering) {
-        firstRendering = false;
-        QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative",
-                                                                               "activity", "()Landroid/app/Activity;");
-        activity.callMethod<void>("finishSplash","()V");
-    }
+    #ifdef Q_OS_ANDROID
+        if (firstRendering) {
+            firstRendering = false;
+            QAndroidJniObject activity = QAndroidJniObject::callStaticObjectMethod("org/qtproject/qt5/android/QtNative",
+                                                                                   "activity", "()Landroid/app/Activity;");
+            activity.callMethod<void>("finishSplash","()V");
+        }
+    #endif
 }
