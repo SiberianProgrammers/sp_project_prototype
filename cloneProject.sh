@@ -194,7 +194,7 @@ git init
 git add *
 git add .gitignore
 git commit -m "Заглавный коммит."
-git submodule add git@bitbucket.org:siberian_programmers/sp_qt_libs.git
+git submodule add git@github.com:SiberianProgrammers/sp_qt_libs.git
 git commit -m "Добавлен модуль sp_qt_libs."
 git checkout -b develop
 
